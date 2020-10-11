@@ -1,0 +1,5 @@
+##store data
+dbpath=D:\Projects\TNY.NotificationService\LocalDB\data
+ 
+##all output go here
+logpath=D:\Projects\TNY.NotificationService\LocalDB\log\mongo.log
