@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNY.WebAPI", "TNY.WebAPI\TN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNY.BUS", "TNY.BUS\TNY.BUS.csproj", "{F0FB56EE-33E3-4081-9E0C-15C538BF373A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNY.Utils", "TNY.Utils\TNY.Utils.csproj", "{775AF59D-4CDD-450A-82BC-7AD8DEC71D62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNY.Notification.SignalR", "TNY.Notification.SignalR\TNY.Notification.SignalR.csproj", "{82840EEC-C3EE-4AF1-BD68-C5D76AEBB03A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{F0FB56EE-33E3-4081-9E0C-15C538BF373A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0FB56EE-33E3-4081-9E0C-15C538BF373A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0FB56EE-33E3-4081-9E0C-15C538BF373A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{775AF59D-4CDD-450A-82BC-7AD8DEC71D62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{775AF59D-4CDD-450A-82BC-7AD8DEC71D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{775AF59D-4CDD-450A-82BC-7AD8DEC71D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{775AF59D-4CDD-450A-82BC-7AD8DEC71D62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82840EEC-C3EE-4AF1-BD68-C5D76AEBB03A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82840EEC-C3EE-4AF1-BD68-C5D76AEBB03A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82840EEC-C3EE-4AF1-BD68-C5D76AEBB03A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82840EEC-C3EE-4AF1-BD68-C5D76AEBB03A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
