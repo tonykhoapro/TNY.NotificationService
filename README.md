@@ -1,11 +1,18 @@
 # TNY.NotificationService
-## Overview
+## 1. Overview
 A notification system.
 
-## Support Flatforms
+## 2. Server flatform
+- ASP.NET Web API
+
+## 3. Supported client flatforms
 - ASP.NET Web App
 - Android
 
-## Required Evironments
-- .NET 4.6.1
-- MongoDB
+## 4. Technologies
+- Web Server: 
+    - ASP.NET 4.6.1
+    - SignalR
+    - Firebase
+- Database:
+     - MongoDB

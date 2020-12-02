@@ -1,0 +1,4 @@
+2020-10-28 11:38:04 - Using a Hub instance not created by the HubPipeline is unsupported.
+2020-10-28 11:51:05 - Using a Hub instance not created by the HubPipeline is unsupported.
+30/11/2020 12:48:33 PM - Two Hubs must not share the same name. 'TNY.NotificationService.SignalR.Hubs.NotificationHub, TNY.NotificationService.SignalR, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' and 'TNY.NotificationService.WebAPI.signalr.hubs.NotificationHub, TNY.NotificationService.WebAPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' both share the name 'NotificationHub'.
+01/12/2020 3:38:07 PM - An error occurred while deserializing the AppID property of class TNY.NotificationService.BUS.Models.NotificationActivity: Cannot deserialize a 'List<String>' from BsonType 'ObjectId'.

@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+    ViewBag.Title = "Home Page";
+}
+@using TNY.NotificationWebClient.Models
+@model UserModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNY.NotificationWebClient</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="http://localhost:53771/signalr/hubs"></script>
+</head>
+<body>
+    <div class="container body-content">
+        <div class="row">
+            <div class="container">
+                @*<input type="text" id="message" />
+                <input type="button" id="sendmessage" value="Send" />*@
+                <input type="hidden" id="user-id" value="@Model.UserID"/>
+                <h3>Notifications go here:</h3>
+                <ul id="discussion"></ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<script>
+    $(function () {
+        //specify the URL based on your hub hosting server
+        //var user = $('#user-id').val();
+        $.connection.hub.url = 'http://localhost:53771/signalr';
+        $.connection.hub.qs = { 'userid': '@Model.UserID', 'appid': '5f82e7ebe280cc251f9fadd5' };
+        var notif = $.connection.notificationHub;
+        notif.client.receiveNotification = function (message) {
+            console.log(message);
+            // Html encode display name and message.
+            //var encodedName = $('<div />').text(name).html();
+            var encodedMsg = $('<div />').text(message).html();
+            // Add the message to the page.
+            $('#discussion').append('<li><strong>'
+                + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+        };
+        //$('#displayname').val(prompt('Enter your name:', ''));
+        // Set initial focus to message input box.
+        //$('#message').focus();
+        
+        $.connection.hub.start().done(function () {
+            //$('#sendmessage').click(function () {
+            //    // Call the Send method on the hub.
+            //    chat.server.send($('#displayname').val(), $('#message').val() + " (sent from App2)");
+            //    // Clear text box and reset focus for next comment.
+            //    $('#message').val('').focus();
+            //});
+            console.log('success');
+        });
+    })
+</script>
+
