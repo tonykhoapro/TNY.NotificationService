@@ -99,10 +99,11 @@
   <ItemGroup>
     <Compile Include="Bus_AppInfo.cs" />
     <Compile Include="Bus_NotificationActivity.cs" />
+    <Compile Include="Bus_Recipients.cs" />
     <Compile Include="Bus_User.cs" />
     <Compile Include="Models\AppInfo.cs" />
     <Compile Include="Models\NotificationActivity.cs" />
-    <Compile Include="Models\Recipient.cs" />
+    <Compile Include="Models\Recipients.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

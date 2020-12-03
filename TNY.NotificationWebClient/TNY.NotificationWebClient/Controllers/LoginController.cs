@@ -27,8 +27,10 @@ namespace TNY.NotificationWebClient.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Route("Logout")]
         public ActionResult Logout()
         {
+            Session[CommonConst.USER_SESSION] = null;
             return RedirectToAction("Index");
         }
     }

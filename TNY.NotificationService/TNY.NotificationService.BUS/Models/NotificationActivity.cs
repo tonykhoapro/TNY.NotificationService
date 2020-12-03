@@ -16,9 +16,11 @@ namespace TNY.NotificationService.BUS.Models
         public string Content { get; set; }
         public string UserID { get; set; }
         public List<string> RecipientIDs { get; set; }
-        public List<string> AppID { get; set; }
+        public List<string> AppIDs { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? ScheduleTime { get; set; }
         public bool? IsCancel { get; set; }
+        [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? SendTime { get; set; }
     }
 }
