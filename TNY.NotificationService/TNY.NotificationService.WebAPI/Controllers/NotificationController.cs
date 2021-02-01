@@ -21,18 +21,12 @@ namespace TNY.NotificationService.WebAPI.Controllers
         Bus_AppInfo bus_AppInfo = new Bus_AppInfo();
         Bus_NotificationActivity bus_NotificationActivity = new Bus_NotificationActivity();
         Bus_User bus_user = new Bus_User();
-        //SignalRService service_signalr = new SignalRService();
         NotificationHub notificationHub = new NotificationHub();
-        public string GetAllAppInfo()
-        {
-            List<AppInfo> lstAppInfo = bus_AppInfo.GetAll();
-            return JsonConvert.SerializeObject(lstAppInfo);
-        }
 
-        public void Post([FromBody]string value)
-        {
+        //public void Post([FromBody]string value)
+        //{
 
-        }
+        //}
 
         //[HttpPost]
         //public HttpResponseMessage SendAll([FromBody]NotificationModel value)
@@ -137,7 +131,7 @@ namespace TNY.NotificationService.WebAPI.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public HttpResponseMessage GetNotif_ByTime([FromBody]NotifHistoryModel model)
         {
             //NotificationActivity _request = JsonConvert.DeserializeObject<NotificationActivity>(value);
@@ -157,7 +151,7 @@ namespace TNY.NotificationService.WebAPI.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public HttpResponseMessage GetNotif_ById([FromBody]NotifHistoryModel model)
         {
             if (model.Id == null)
@@ -176,7 +170,7 @@ namespace TNY.NotificationService.WebAPI.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         public HttpResponseMessage GetNotif_ByUserID([FromBody]NotifHistoryModel model)
         {
             if (model.UserID == null)
@@ -296,18 +290,69 @@ namespace TNY.NotificationService.WebAPI.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage GetAllScheduledNotif([FromBody]NotificationModel value)
+        public HttpResponseMessage SendToList_Routine([FromBody]NotificationModel value)
         {
-            List<NotificationActivity> notifications = bus_NotificationActivity.Get_Unpush();
-            NotificationActivity _notif = notifications.Where(x => x.Id == value.Id).FirstOrDefault();
-            if (_notif == null)
+            try
             {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
+                if (value.RecipientIDs == null || string.IsNullOrEmpty(value.Content) || value.Routine == null || value.Routine.Time == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+                }
+                IEnumerable<string> _sessionGuid;
+                User _usr = new User();
+                if (Request.Headers.TryGetValues("SessionGuid", out _sessionGuid))
+                {
+                    string _sessID = _sessionGuid.First();
+                    if (MemoryCacher.GetValue(_sessID) == null)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.Forbidden);
+                    }
+                    string _userID = MemoryCacher.GetValue(_sessID).ToString();
+                    _usr = bus_user.Get_ById(_userID);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+                }
+                string _webappid = value.AppIDs.Where(x => bus_AppInfo.Get_ById(x).Type == AppTypeConst.WEBAPP).FirstOrDefault();
+                if (_webappid != null)
+                {
+                    NotificationActivity _notif = bus_NotificationActivity.Create(new NotificationActivity
+                    {
+                        Content = value.Content,
+                        UserID = _usr.Id,
+                        RecipientIDs = value.RecipientIDs,
+                        AppIDs = new List<string> { _webappid },
+                        IsRoutine = true,
+                        Routine = value.Routine
+                    });
+                    return Request.CreateResponse(HttpStatusCode.OK, new { NotifID = _notif.Id });
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                bus_NotificationActivity.Update_Cancel(_notif);
-                return Request.CreateResponse(HttpStatusCode.OK);
+                LogGenerationHelper.WriteToFile(ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+        }
+
+
+        [HttpPost]
+        public HttpResponseMessage GetAllUnpushNotif()
+        {
+            try
+            {
+                List<NotificationActivity> notifications = bus_NotificationActivity.Get_Unpush();
+                return Request.CreateResponse(HttpStatusCode.OK, notifications);
+            }
+            catch(Exception ex)
+            {
+                LogGenerationHelper.WriteToFile(ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 

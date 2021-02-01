@@ -31,14 +31,70 @@ namespace TNY.NotificationService.WebAPI.Controllers
                     {
                         while (true)
                         {
+                            LogGenerationHelper.WriteToFile("Scheduled Sender running");
                             List<NotificationActivity> _lstSel = bus_NotificationActivity.Get_Unpush();
                             foreach (NotificationActivity notif in _lstSel)
                             {
-                                string _webappid = notif.AppIDs.Where(x => bus_AppInfo.Get_ById(x).Type == AppTypeConst.WEBAPP).FirstOrDefault();
-                                notificationHub.SendSegment(notif.Id, notif.RecipientIDs, _webappid, notif.Content);
-                                bus_NotificationActivity.Update_SendTime(notif);
+                                try
+                                {
+                                    LogGenerationHelper.WriteToFile("Scheduled Sender sending");
+                                    string _webappid = notif.AppIDs.Where(x => bus_AppInfo.Get_ById(x).Type == AppTypeConst.WEBAPP).FirstOrDefault();
+                                    notificationHub.SendSegment(notif.Id, notif.RecipientIDs, _webappid, notif.Content);
+                                    bus_NotificationActivity.Update_SendTime(notif);
+                                }
+                                catch (Exception ex)
+                                {
+                                    LogGenerationHelper.WriteToFile($"{notif.Id} -> {ex.Message}");
+                                }
                             }
-                            LogGenerationHelper.WriteToFile("Scheduled Sender running");
+                            List<NotificationActivity> _lstRoutine = bus_NotificationActivity.Get_Routine();
+                            foreach (NotificationActivity routine in _lstRoutine)
+                            {
+                                try
+                                {
+                                    LogGenerationHelper.WriteToFile("Routine Sender sending");
+                                    if (routine.Routine.Type == RoutineType.DAILY)
+                                    {
+                                        if (((DateTime)routine.Routine.Time).TimeOfDay >= DateTime.Now.TimeOfDay)
+                                        {
+                                            if(routine.SendTime != null && ((DateTime)routine.SendTime).Date != DateTime.Today)
+                                            {
+                                                string _webappid = routine.AppIDs.Where(x => bus_AppInfo.Get_ById(x).Type == AppTypeConst.WEBAPP).FirstOrDefault();
+                                                notificationHub.SendSegment(routine.Id, routine.RecipientIDs, _webappid, routine.Content);
+                                                bus_NotificationActivity.Update_SendTime(routine);
+                                            }
+                                        }
+                                    }
+                                    else if(routine.Routine.Type == RoutineType.WEEKLY)
+                                    {
+                                        if ( routine.Routine.DayOfWeek == DateTime.Now.DayOfWeek && ((DateTime)routine.Routine.Time).TimeOfDay >= DateTime.Now.TimeOfDay)
+                                        {
+                                            if (routine.SendTime != null && ((DateTime)routine.SendTime).Date != DateTime.Today)
+                                            {
+                                                string _webappid = routine.AppIDs.Where(x => bus_AppInfo.Get_ById(x).Type == AppTypeConst.WEBAPP).FirstOrDefault();
+                                                notificationHub.SendSegment(routine.Id, routine.RecipientIDs, _webappid, routine.Content);
+                                                bus_NotificationActivity.Update_SendTime(routine);
+                                            }
+                                        }
+                                    }
+                                    else if (routine.Routine.Type == RoutineType.MONTHLY)
+                                    {
+                                        if (((DateTime)routine.Routine.Time).Day == DateTime.Now.Day && ((DateTime)routine.Routine.Time).TimeOfDay >= DateTime.Now.TimeOfDay)
+                                        {
+                                            if (routine.SendTime != null && ((DateTime)routine.SendTime).Date != DateTime.Today)
+                                            {
+                                                string _webappid = routine.AppIDs.Where(x => bus_AppInfo.Get_ById(x).Type == AppTypeConst.WEBAPP).FirstOrDefault();
+                                                notificationHub.SendSegment(routine.Id, routine.RecipientIDs, _webappid, routine.Content);
+                                                bus_NotificationActivity.Update_SendTime(routine);
+                                            }
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    LogGenerationHelper.WriteToFile($"{routine.Id} -> {ex.Message}");
+                                }
+                            }
                             Thread.Sleep(60_000);
                         }
                     });

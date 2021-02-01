@@ -48,6 +48,35 @@ namespace TNY.NotificationService.WebAPI.Controllers
         }
 
         [HttpPost]
+        public HttpResponseMessage Update([FromBody]AppInfo model)
+        {
+            if (model.Id == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+            try
+            {
+                AppInfo _appinfo = bus_AppInfo.Get_ById(model.Id);
+                if (_appinfo == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+                else
+                {
+                    bool _rs = bus_AppInfo.Update(model);
+                    return Request.CreateResponse(HttpStatusCode.OK, _rs);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                LogGenerationHelper.WriteToFile(ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpPost]
         public HttpResponseMessage Remove([FromBody]AppInfo model)
         {
             if (model.Id == null)
@@ -56,8 +85,17 @@ namespace TNY.NotificationService.WebAPI.Controllers
             }
             try
             {
-                bus_AppInfo.Remove(model.Id);
-                return Request.CreateResponse(HttpStatusCode.OK);
+                AppInfo _appinfo = bus_AppInfo.Get_ById(model.Id);
+                if (_appinfo == null)
+                {
+                    return Request.CreateResponse(HttpStatusCode.NotFound);
+                }
+                else
+                {
+                    bus_AppInfo.Remove(model.Id);
+                    return Request.CreateResponse(HttpStatusCode.OK);
+                }
+
             }
             catch (Exception ex)
             {

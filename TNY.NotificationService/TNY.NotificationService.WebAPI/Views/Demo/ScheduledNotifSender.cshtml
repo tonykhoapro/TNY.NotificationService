@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Templates</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container body-content">
+        <button id="btnStart">
+            Start scheduled notification sender
+        </button>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $(document).ready(function () {
+
+            $('#btnStart').click(function () {
+                $.ajax({
+                    url: '/api/ScheduledNotifSender/Start',
+                    type: 'post',
+                    data: { },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Start sender successfully`);
+                        },
+                        400: function (response) {
+                            alert(`Error code: Bad request - ${response.responseJSON.Error}`);
+                            console.log(response.responseJSON.Error);
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            
+
+
+        });
+    </script>
+</body>
+</html>
+
+

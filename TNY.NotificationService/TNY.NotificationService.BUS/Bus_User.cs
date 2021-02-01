@@ -31,6 +31,11 @@ namespace TNY.NotificationService.BUS
             return user;
         }
 
+        public bool Update(User model)
+        {
+            return _objLst.ReplaceOne(_ => _.Id == model.Id, model).IsAcknowledged;
+        }
+
         public void Remove(string id) => _objLst.DeleteOne(x => x.Id == id);
     }
 }

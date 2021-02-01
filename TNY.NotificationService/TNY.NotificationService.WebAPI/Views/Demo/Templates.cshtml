@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Templates</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container body-content">
+        <textarea rows="9" id="txtTemplates"></textarea>
+        <br />
+        <button id="btnGetAll">
+            Get all templates
+        </button>
+        <br />
+        <label>Template name:</label>
+        <input id="txtName" />
+        <br />
+        <label>Template type:</label>
+        <input id="txtType" />
+        <br />
+        <label>Template content:</label>
+        <textarea rows="9" id="txtContent"></textarea>
+        <br />
+        <button id="btnAdd">
+            Add template
+        </button>
+        <br />
+        <button id="btnUpdate">
+            Update template
+        </button>
+        <br />
+        <label>Template ID:</label>
+        <input id="txtTemplateID" />
+        <button id="btnRemove">
+            Remove template
+        </button>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $(document).ready(function () {
+
+            $('#btnGetAll').click(function () {
+                $.ajax({
+                    url: '/api/Templates/GetAll',
+                    type: 'get',
+                    data: { },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Get template successfully`);
+                            $('#txtTemplates').text(JSON.stringify(response, null, 2));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnAdd').click(function () {
+                $.ajax({
+                    url: '/api/Templates/Add',
+                    type: 'post',
+                    data: { Name: $('#txtName').val(), Type: $('#txtType').val(), Content: $('#txtContent').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Add template successfully`);
+                            $('#txtTemplates').text(JSON.stringify(response));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnUpdate').click(function () {
+                $.ajax({
+                    url: '/api/Templates/Update',
+                    type: 'post',
+                    data: { Id: $('#txtTemplateID').val(), Name: $('#txtName').val(), Type: $('#txtType').val(), Content: $('#txtContent').val() },
+                    statusCode: {
+                        200: function (response) {
+                            if (response == true) {
+                                alert(`Update template successfully`);
+                            } else {
+                                alert(`Update template unsuccessfully`);
+                            }
+                            
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnRemove').click(function () {
+                $.ajax({
+                    url: '/api/Templates/Remove',
+                    type: 'post',
+                    data: { Id: $('#txtTemplateID').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Remove user successfully`);
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            
+        });
+    </script>
+</body>
+</html>
+
+

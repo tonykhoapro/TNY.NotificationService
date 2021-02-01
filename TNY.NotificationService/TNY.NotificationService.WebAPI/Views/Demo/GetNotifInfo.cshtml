@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Get notification information</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container body-content">
+        @*<label>Session ID: </label><input id="txtSessionID" value="" /><br />
+            <label>Id: </label> <input id="txtID" /><br />
+            <label>Content: </label> <input id="txtContent" /><br />
+            <label>RecipientIDs: </label> <input id="txtRecipientIDs" /><br />
+            <label>ScheduleTime: </label> <input id="txtScheduleTime" /><br />
+            <label>AppIDs: </label> <input id="txtAppIDs" value="5f82e7ebe280cc251f9fadd5" /><br />
+            <button id="btnSendNotif">
+                Send notification
+            </button>
+            <br />
+
+            <button id="btnSendNotifSche">
+                Send notification by schedule
+            </button>
+            <br />
+            <br />
+            <br />*@
+        <textarea rows="9" id="txtNotif"></textarea>
+        <br />
+        <label>Notification ID:</label>
+        <input id="txtNotifID" />
+        <br />
+        <label>From time:</label>
+        <input type="date" id="txtFromTime" />
+        <br />
+        <label>To time:</label>
+        <input type="date" id="txtToTime" />
+        <br />
+        <button id="btnGetNotif_ById">
+            Get notif by ID
+        </button>
+        <br />
+        <button id="btnGetNotif_ByTime">
+            Get notif by time
+        </button>
+        <br />
+        <label>User ID:</label>
+        <input id="txtUserID" />
+        <button id="btnGetNotif_ByUserID">
+            Get notif by user
+        </button>
+        <br />
+        <button id="btnGetUnpushNotif">
+            Get unpush notif
+        </button>
+        <br />
+        <label>Unpush notif ID:</label>
+        <input id="txtUnpushNotifID" />
+        <button id="btnCancelScheduleNotif">
+            Cancel unpush notif
+        </button>
+        <br />
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $(document).ready(function () {
+
+            $('#btnGetNotif_ById').click(function () {
+                $.ajax({
+                    url: '/api/Notification/GetNotif_ById',
+                    type: 'post',
+                    data: { Id: $('#txtNotifID').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Get notification successfully`);
+                            $('#txtNotif').text(JSON.stringify(response, null, 2));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnGetNotif_ByTime').click(function () {
+                $.ajax({
+                    url: '/api/Notification/GetNotif_ByTime',
+                    type: 'post',
+                    data: { FromTime: $('#txtFromTime').val(), ToTime: $('#txtToTime').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Get notification successfully`);
+                            $('#txtNotif').text(JSON.stringify(response, null, 2));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnGetNotif_ByUserID').click(function () {
+                $.ajax({
+                    url: '/api/Notification/GetNotif_ByUserID',
+                    type: 'post',
+                    data: { UserID: $('#txtUserID').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Get notification successfully`);
+                            $('#txtNotif').text(JSON.stringify(response, null, 2));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnGetUnpushNotif').click(function () {
+                $.ajax({
+                    url: '/api/Notification/GetAllUnpushNotif',
+                    type: 'post',
+                    data: {},
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Get notification successfully`);
+                            $('#txtNotif').text(JSON.stringify(response, null, 2));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert(`Error code: Internal server error - ${response}`);
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnCancelScheduleNotif').click(function () {
+                $.ajax({
+                    url: '/api/Notification/CancelScheduledNotif',
+                    type: 'post',
+                    data: { Id: $('#txtUnpushNotifID').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Cancel notification successfully`);
+                            //$('#txtNotif').text(JSON.stringify(response, null, 2));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        500: function (response) {
+                            alert(`Error code: Internal server error - ${response}`);
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+

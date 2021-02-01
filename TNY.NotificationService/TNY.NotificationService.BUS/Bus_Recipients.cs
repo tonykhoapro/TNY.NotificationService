@@ -22,9 +22,9 @@ namespace TNY.NotificationService.BUS
 
         public List<Recipients> GetAll() => _objLst.Find(x => true).ToList();
 
-        public Recipients Get_ById(string id) => _objLst.Find<Recipients>(x => x.Id == id).FirstOrDefault();
+        public Recipients Get_ById(string id) => _objLst.Find<Recipients>(x => x.RecipientID == id).FirstOrDefault();
 
-        public Recipients Get_ByIdAppID(string id, string appid) => _objLst.Find<Recipients>(x => x.Id == id && x.AppID == appid && x.ReceivedTime == null).FirstOrDefault();
+        public Recipients Get_ByIdAppID(string id, string appid) => _objLst.Find<Recipients>(x => x.RecipientID == id && x.AppID == appid && x.ReceivedTime == null).FirstOrDefault();
 
         public Recipients Create(Recipients recipient)
         {
@@ -34,7 +34,7 @@ namespace TNY.NotificationService.BUS
 
         public Recipients Replace(Recipients recipient)
         {
-            var _filter = Builders<Recipients>.Filter.Eq(x=>x.Id, recipient.Id)
+            var _filter = Builders<Recipients>.Filter.Eq(x=>x.RecipientID, recipient.RecipientID)
                 & Builders<Recipients>.Filter.Eq(x => x.AppID, recipient.AppID)
                 & Builders<Recipients>.Filter.Eq("ReceivedTime", BsonNull.Value);
             _objLst.ReplaceOne(_filter, recipient);
@@ -43,7 +43,7 @@ namespace TNY.NotificationService.BUS
 
         public Recipients Update_ReceiveTime(Recipients recipient)
         {
-            var _filter = Builders<Recipients>.Filter.Eq(x => x.Id, recipient.Id)
+            var _filter = Builders<Recipients>.Filter.Eq(x => x.RecipientID, recipient.RecipientID)
                 & Builders<Recipients>.Filter.Eq(x => x.AppID, recipient.AppID)
                 & Builders<Recipients>.Filter.Eq("ReceivedTime", BsonNull.Value);
             var _update = Builders<Recipients>.Update.Set(x => x.ReceivedTime, DateTime.Now);
@@ -51,6 +51,6 @@ namespace TNY.NotificationService.BUS
             return recipient;
         }
 
-        public void Remove(string id) => _objLst.DeleteOne(x => x.Id == id);
+        public void Remove(string id) => _objLst.DeleteOne(x => x.RecipientID == id);
     }
 }

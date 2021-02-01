@@ -30,6 +30,12 @@ namespace TNY.NotificationService.BUS
             return appinfo;
         }
 
+        public bool Update(AppInfo appInfo)
+        {
+            ReplaceOneResult _rs = _appInfo.ReplaceOne(_ => _.Id == appInfo.Id, appInfo);
+            return _rs.IsAcknowledged;
+        }
+
         public void Remove(string id) => _appInfo.DeleteOne(x => x.Id == id);
     }
 }

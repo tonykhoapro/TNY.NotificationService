@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Application information</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container body-content">
+        <textarea rows="9" id="txtApp"></textarea>
+        <br />
+        <button id="btnGetAll">
+            Get all applications
+        </button>
+        <br />
+        <label>App name:</label>
+        <input id="txtAppName" />
+        <br />
+        <label>App type:</label>
+        <input id="txtAppType" />
+        <br />
+        <button id="btnAddApp">
+            Add applications
+        </button>
+        <br />
+        <button id="btnUpdateApp">
+            Update applications
+        </button>
+        <br />
+        <label>App Id:</label>
+        <input id="txtAppID" />
+        <button id="btnRemoveApp">
+            Remove application
+        </button>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $(document).ready(function () {
+
+            $('#btnGetAll').click(function () {
+                $.ajax({
+                    url: '/api/App/GetAll',
+                    type: 'get',
+                    data: { },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Get applications successfully`);
+                            $('#txtApp').text(JSON.stringify(response, null, 2));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnAddApp').click(function () {
+                $.ajax({
+                    url: '/api/App/Add',
+                    type: 'post',
+                    data: { Name: $('#txtAppName').val(), Type: $('#txtAppType').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Add application successfully`);
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnUpdateApp').click(function () {
+                $.ajax({
+                    url: '/api/App/Update',
+                    type: 'post',
+                    data: { Id: $('#txtAppID').val(), Name: $('#txtAppName').val(), Type: $('#txtAppType').val() },
+                    statusCode: {
+                        200: function (response) {
+                            if (response == true) {
+                                alert(`Update application successfully`);
+                            }
+                            else {
+                                alert(`Update application unsuccessfully`);
+                            }
+                            
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnRemoveApp').click(function () {
+                $.ajax({
+                    url: '/api/App/Remove',
+                    type: 'post',
+                    data: { Id: $('#txtAppID').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Remove application successfully`);
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnGetUnpushNotif').click(function () {
+                $.ajax({
+                    url: '/api/Notification/GetAllUnpushNotif',
+                    type: 'post',
+                    data: {},
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Get notification successfully`);
+                            $('#txtNotif').text(JSON.stringify(response, null, 2));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert(`Error code: Internal server error - ${response}`);
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnCancelScheduleNotif').click(function () {
+                $.ajax({
+                    url: '/api/Notification/CancelScheduledNotif',
+                    type: 'post',
+                    data: { Id: $('#txtUnpushNotifID').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Cancel notification successfully`);
+                            //$('#txtNotif').text(JSON.stringify(response, null, 2));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        500: function (response) {
+                            alert(`Error code: Internal server error - ${response}`);
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+

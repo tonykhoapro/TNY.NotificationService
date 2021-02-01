@@ -242,3 +242,135 @@
 03/12/2020 4:01:31 PM - Connected
 03/12/2020 4:01:31 PM - Pushing leftover notif
 03/12/2020 4:02:19 PM - Scheduled Sender running
+05/12/2020 1:17:11 PM - Not found: cat - Updating to Recipients
+05/12/2020 1:17:11 PM - A write operation resulted in an error.
+  E11000 duplicate key error collection: NotificationDB.Recipients index: _id_ dup key: { _id: "cat" }
+05/12/2020 1:17:17 PM - Connected
+05/12/2020 1:17:17 PM - No leftover notif
+05/12/2020 1:17:20 PM - Sending notif to: cat - cid: 36682562-8021-42da-bbb8-548d36b8de16
+05/12/2020 1:17:20 PM - Not found: dog - Updating to Recipients
+05/12/2020 1:24:01 PM - Disconnected
+29/01/2021 5:51:11 PM - Connected
+29/01/2021 5:51:11 PM - No leftover notif
+29/01/2021 8:27:10 PM - Connected
+29/01/2021 8:27:10 PM - No leftover notif
+30/01/2021 1:23:48 AM - Not found: 123 - Updating to Recipients
+30/01/2021 1:28:50 AM - Not found: 123 - Updating to Recipients
+30/01/2021 1:29:03 AM - Connected
+30/01/2021 1:29:03 AM - Pushing leftover notif
+30/01/2021 1:34:41 AM - Disconnected
+30/01/2021 1:36:20 AM - Not found: 123 - Updating to Recipients
+30/01/2021 1:36:20 AM - A write operation resulted in an error.
+  E11000 duplicate key error collection: NotificationDB.Recipients index: _id_ dup key: { _id: "123" }
+30/01/2021 2:00:36 AM - Connected
+30/01/2021 2:00:36 AM - No leftover notif
+30/01/2021 2:04:30 AM - Disconnected
+30/01/2021 2:04:45 AM - Not found: 123 - Updating to Recipients
+30/01/2021 2:04:45 AM - A write operation resulted in an error.
+  E11000 duplicate key error collection: NotificationDB.Recipients index: _id_ dup key: { _id: "123" }
+30/01/2021 2:05:36 AM - Not found: 123 - Updating to Recipients
+30/01/2021 2:06:00 AM - A write operation resulted in an error.
+  E11000 duplicate key error collection: NotificationDB.Recipients index: _id_ dup key: { _id: "123" }
+30/01/2021 2:06:27 AM - Disconnected
+30/01/2021 2:06:36 AM - Connected
+30/01/2021 2:06:36 AM - No leftover notif
+30/01/2021 2:06:39 AM - Disconnected
+30/01/2021 2:06:39 AM - Connected
+30/01/2021 2:06:39 AM - No leftover notif
+30/01/2021 2:06:41 AM - Disconnected
+30/01/2021 2:06:42 AM - Connected
+30/01/2021 2:06:42 AM - No leftover notif
+01/02/2021 12:31:05 AM - Unable to determine the serialization information for x => x.
+01/02/2021 1:51:13 AM - Connected
+01/02/2021 1:51:14 AM - No leftover notif
+01/02/2021 1:51:55 AM - Sending notif to: cat - cid: f09c0db9-95ae-4aa2-b8a1-877fb3781b9e
+01/02/2021 1:52:14 AM - Sending notif to: cat - cid: f09c0db9-95ae-4aa2-b8a1-877fb3781b9e
+01/02/2021 1:53:50 AM - Sending notif to: cat - cid: f09c0db9-95ae-4aa2-b8a1-877fb3781b9e
+01/02/2021 11:03:57 AM - Not found: cat - Updating to Recipients
+01/02/2021 11:05:18 AM - Connected
+01/02/2021 11:05:19 AM - Element '_id' does not match any field or property of class TNY.NotificationService.BUS.Models.Recipients.
+01/02/2021 11:05:19 AM - Element '_id' does not match any field or property of class TNY.NotificationService.BUS.Models.Recipients.
+01/02/2021 11:06:01 AM - Disconnected
+01/02/2021 11:06:07 AM - Connected
+01/02/2021 11:06:39 AM - Element '_id' does not match any field or property of class TNY.NotificationService.BUS.Models.Recipients.
+01/02/2021 11:06:40 AM - Element '_id' does not match any field or property of class TNY.NotificationService.BUS.Models.Recipients.
+01/02/2021 11:07:13 AM - Disconnected
+01/02/2021 11:07:23 AM - Connected
+01/02/2021 11:08:41 AM - Element '_id' does not match any field or property of class TNY.NotificationService.BUS.Models.Recipients.
+01/02/2021 11:08:41 AM - Element '_id' does not match any field or property of class TNY.NotificationService.BUS.Models.Recipients.
+01/02/2021 11:09:01 AM - Disconnected
+01/02/2021 11:09:02 AM - Connected
+01/02/2021 11:09:02 AM - Element '_id' does not match any field or property of class TNY.NotificationService.BUS.Models.Recipients.
+01/02/2021 11:09:02 AM - Element '_id' does not match any field or property of class TNY.NotificationService.BUS.Models.Recipients.
+01/02/2021 11:09:09 AM - Disconnected
+01/02/2021 11:09:16 AM - Connected
+01/02/2021 11:09:26 AM - Element '_id' does not match any field or property of class TNY.NotificationService.BUS.Models.Recipients.
+01/02/2021 11:09:29 AM - Element '_id' does not match any field or property of class TNY.NotificationService.BUS.Models.Recipients.
+01/02/2021 11:10:03 AM - Disconnected
+01/02/2021 11:10:06 AM - Connected
+01/02/2021 11:10:12 AM - Element '_id' does not match any field or property of class TNY.NotificationService.BUS.Models.Recipients.
+01/02/2021 11:10:16 AM - Element '_id' does not match any field or property of class TNY.NotificationService.BUS.Models.Recipients.
+01/02/2021 11:11:21 AM - Connected
+01/02/2021 11:11:25 AM - Pushing leftover notif
+01/02/2021 11:11:35 AM - No leftover notif
+01/02/2021 11:11:52 AM - Connected
+01/02/2021 11:11:57 AM - No leftover notif
+01/02/2021 11:12:01 AM - No leftover notif
+01/02/2021 11:12:16 AM - Disconnected
+01/02/2021 11:12:21 AM - Disconnected
+01/02/2021 11:12:53 AM - Not found: dog - Updating to Recipients
+01/02/2021 11:13:05 AM - Connected
+01/02/2021 11:13:05 AM - Pushing leftover notif
+01/02/2021 11:13:05 AM - No leftover notif
+01/02/2021 1:39:12 PM - Scheduled Sender running
+01/02/2021 1:39:13 PM - Scheduled Sender sending
+01/02/2021 1:39:15 PM - Not found: 123 - Updating to Recipients
+01/02/2021 1:39:15 PM - Routine Sender sending
+01/02/2021 1:39:15 PM - Routine Sender sending
+01/02/2021 1:39:15 PM - 60178cacc8684d246bf9aa49 -> Nullable object must have a value.
+01/02/2021 1:39:15 PM - Routine Sender sending
+01/02/2021 1:40:15 PM - Scheduled Sender running
+01/02/2021 1:40:15 PM - Routine Sender sending
+01/02/2021 1:40:15 PM - Routine Sender sending
+01/02/2021 1:40:15 PM - 60178cacc8684d246bf9aa49 -> Nullable object must have a value.
+01/02/2021 1:40:15 PM - Routine Sender sending
+01/02/2021 1:41:15 PM - Scheduled Sender running
+01/02/2021 1:41:15 PM - Routine Sender sending
+01/02/2021 1:41:15 PM - Routine Sender sending
+01/02/2021 1:41:15 PM - 60178cacc8684d246bf9aa49 -> Nullable object must have a value.
+01/02/2021 1:41:15 PM - Routine Sender sending
+01/02/2021 1:42:15 PM - Scheduled Sender running
+01/02/2021 1:42:15 PM - Routine Sender sending
+01/02/2021 1:42:15 PM - Routine Sender sending
+01/02/2021 1:42:15 PM - 60178cacc8684d246bf9aa49 -> Nullable object must have a value.
+01/02/2021 1:42:15 PM - Routine Sender sending
+01/02/2021 1:43:15 PM - Scheduled Sender running
+01/02/2021 1:43:15 PM - Routine Sender sending
+01/02/2021 1:43:15 PM - Routine Sender sending
+01/02/2021 1:43:15 PM - 60178cacc8684d246bf9aa49 -> Nullable object must have a value.
+01/02/2021 1:43:15 PM - Routine Sender sending
+01/02/2021 1:46:17 PM - Scheduled Sender running
+01/02/2021 1:46:17 PM - Routine Sender sending
+01/02/2021 1:46:17 PM - Routine Sender sending
+01/02/2021 1:46:17 PM - 60178cacc8684d246bf9aa49 -> Nullable object must have a value.
+01/02/2021 1:46:17 PM - Routine Sender sending
+01/02/2021 1:47:17 PM - Scheduled Sender running
+01/02/2021 1:47:17 PM - Routine Sender sending
+01/02/2021 1:47:17 PM - Routine Sender sending
+01/02/2021 1:47:17 PM - 60178cacc8684d246bf9aa49 -> Nullable object must have a value.
+01/02/2021 1:47:17 PM - Routine Sender sending
+01/02/2021 1:48:17 PM - Scheduled Sender running
+01/02/2021 1:48:17 PM - Routine Sender sending
+01/02/2021 1:48:17 PM - Routine Sender sending
+01/02/2021 1:48:17 PM - 60178cacc8684d246bf9aa49 -> Nullable object must have a value.
+01/02/2021 1:48:17 PM - Routine Sender sending
+01/02/2021 1:49:05 PM - Not found: dog - Updating to Recipients
+01/02/2021 1:49:16 PM - Connected
+01/02/2021 1:49:16 PM - Pushing leftover notif
+01/02/2021 1:49:17 PM - No leftover notif
+01/02/2021 1:49:18 PM - Scheduled Sender running
+01/02/2021 1:49:18 PM - Routine Sender sending
+01/02/2021 1:49:18 PM - Routine Sender sending
+01/02/2021 1:49:18 PM - 60178cacc8684d246bf9aa49 -> Nullable object must have a value.
+01/02/2021 1:49:18 PM - Routine Sender sending
+01/02/2021 1:49:51 PM - Sending notif to: dog - cid: 03f9f65d-37c6-4906-9f03-ce94b341e89f

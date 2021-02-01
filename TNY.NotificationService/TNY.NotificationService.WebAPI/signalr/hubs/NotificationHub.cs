@@ -85,7 +85,7 @@ namespace TNY.NotificationService.WebAPI.signalr.hubs
                         if(_rep == null)
                         {
                             bus_Recipients.Create(new Recipients {
-                                Id = id,
+                                RecipientID = id,
                                 AppID = appid,
                                 NotifIDs = new List<string> { notifid }
                             });
@@ -157,7 +157,7 @@ namespace TNY.NotificationService.WebAPI.signalr.hubs
                 //    Clients.Others.userConnected(userID);
                 //}
             }
-
+            this.SendMisspush(userID, appID);
             return base.OnConnected();
         }
 

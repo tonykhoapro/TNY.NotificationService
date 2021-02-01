@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Users information</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container body-content">
+        <textarea rows="9" id="txtApp"></textarea>
+        <br />
+        <button id="btnGetAll">
+            Get all user
+        </button>
+        <br />
+        <label>Username:</label>
+        <input id="txtAppName" />
+        <br />
+        <label>Password:</label>
+        <input type="password" id="txtAppType" />
+        <br />
+        <label>Display name:</label>
+        <input id="txtDisplayName" />
+        <br />
+        <button id="btnAddApp">
+            Add user
+        </button>
+        <br />
+        <button id="btnUpdate">
+            Update user
+        </button>
+        <br />
+        <label>User Id:</label>
+        <input id="txtAppID" />
+        <button id="btnRemoveApp">
+            Remove user
+        </button>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script>
+        $(document).ready(function () {
+
+            $('#btnGetAll').click(function () {
+                $.ajax({
+                    url: '/api/User/GetAll',
+                    type: 'get',
+                    data: { },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Get user successfully`);
+                            $('#txtApp').text(JSON.stringify(response, null, 2));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnAddApp').click(function () {
+                $.ajax({
+                    url: '/api/User/Add',
+                    type: 'post',
+                    data: { UserName: $('#txtAppName').val(), Password: $('#txtAppType').val(), DisplayName: $('#txtDisplayName').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Add user successfully`);
+                            $('#txtApp').text(JSON.stringify(response));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnUpdate').click(function () {
+                $.ajax({
+                    url: '/api/User/Update',
+                    type: 'post',
+                    data: { Id: $('#txtAppID').val(), UserName: $('#txtAppName').val(), Password: $('#txtAppType').val(), DisplayName: $('#txtDisplayName').val() },
+                    statusCode: {
+                        200: function (response) {
+                            if (response == true) {
+                                alert(`Update user successfully`);
+                            } else {
+                                alert(`Update user unsuccessfully`);
+                            }
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnRemoveApp').click(function () {
+                $.ajax({
+                    url: '/api/User/Remove',
+                    type: 'post',
+                    data: { Id: $('#txtAppID').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Remove user successfully`);
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnGetUnpushNotif').click(function () {
+                $.ajax({
+                    url: '/api/Notification/GetAllUnpushNotif',
+                    type: 'post',
+                    data: {},
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Get notification successfully`);
+                            $('#txtNotif').text(JSON.stringify(response, null, 2));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert(`Error code: Internal server error - ${response}`);
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnCancelScheduleNotif').click(function () {
+                $.ajax({
+                    url: '/api/Notification/CancelScheduledNotif',
+                    type: 'post',
+                    data: { Id: $('#txtUnpushNotifID').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Cancel notification successfully`);
+                            //$('#txtNotif').text(JSON.stringify(response, null, 2));
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        404: function (response) {
+                            alert('Error code: Not found');
+                        },
+                        500: function (response) {
+                            alert(`Error code: Internal server error - ${response}`);
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
+

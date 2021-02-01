@@ -32,6 +32,8 @@ namespace TNY.NotificationService.BUS
 
         public List<NotificationActivity> Get_Unpush() => _objLst.Find<NotificationActivity>(x => x.ScheduleTime != null && x.ScheduleTime <= DateTime.Now && x.IsCancel != true && x.SendTime == null).ToList();
 
+        public List<NotificationActivity> Get_Routine() => _objLst.Find<NotificationActivity>(x => x.IsRoutine == true).ToList();
+
         public NotificationActivity Create(NotificationActivity appinfo)
         {
             _objLst.InsertOne(appinfo);
