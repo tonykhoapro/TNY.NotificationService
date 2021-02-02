@@ -1,16 +1,17 @@
-﻿<!DOCTYPE html>
+﻿@model string
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Get notification information</title>
+    <title>Demo API</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
     <div class="container body-content">
-        @*<label>Session ID: </label><input id="txtSessionID" value="" /><br />
-        <label>Id: </label> <input id="txtID" /><br />
+        <label>Session ID: </label><input id="txtSessionID" value="@Model" /><br />
+
         <label>Content: </label> <input id="txtContent" /><br />
         <label>RecipientIDs: </label> <input id="txtRecipientIDs" /><br />
         <label>ScheduleTime: </label> <input id="txtScheduleTime" /><br />
@@ -24,45 +25,34 @@
             Send notification by schedule
         </button>
         <br />
+
+        <select id="selRoutineType">
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+        </select>
         <br />
-        <br />*@
+        <label>Routine day of week:</label>
+        <input id="txtDayOfWeek" />
+        <br />
+        <label>Routine day of month:</label>
+        <input id="txtDayOfMonth" />
+        <br />
+        <label>Routine time:</label>
+        <input id="txtTime" type="time" />
+        <br />
+        <button id="btnSendRoutineNotif">
+            Send routine notification
+        </button>
         <textarea rows="9" id="txtNotif"></textarea>
         <br />
-        <label>Notification ID:</label>
-        <input id="txtNotifID" />
-        <br />
-        <label>From time:</label>
-        <input type="date" id="txtFromTime" />
-        <br />
-        <label>To time:</label>
-        <input type="date" id="txtToTime" />
-        <br />
+        <label>Id: </label> <input id="txtNotifID" /><br />
         <button id="btnGetNotif_ById">
             Get notif by ID
         </button>
         <br />
-        <button id="btnGetNotif_ByTime">
-            Get notif by time
-        </button>
-        <br />
-        <label>User ID:</label>
-        <input id="txtUserID" />
-        <button id="btnGetNotif_ByUserID">
-            Get notif by user
-        </button>
-        <br />
-        <button id="btnGetUnpushNotif">
-            Get unpush notif
-        </button>
-        <br />
-        <button id="btnGetRoutineNotif">
-            Get routine notif
-        </button>
-        <br />
-        <label>Unpush notif ID:</label>
-        <input id="txtUnpushNotifID" />
-        <button id="btnCancelScheduleNotif">
-            Cancel unpush notif
+        <button id="btnUpdateNotif">
+            Update notif
         </button>
         <br />
     </div>
@@ -71,6 +61,94 @@
     @Scripts.Render("~/bundles/bootstrap")
     <script>
         $(document).ready(function () {
+            $('#btnSendNotif').click(function () {
+                $.ajax({
+                    url: '/api/Notification/SendToList',
+                    type: 'post',
+                    headers: { 'SessionGuid': $('#txtSessionID').val() },
+                    data: { Content: $('#txtContent').val(), RecipientIDs: $('#txtRecipientIDs').val(), AppIDs: $('#txtAppIDs').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Send notification successfully - ${response.NotifID}`);
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnSendNotifSche').click(function () {
+
+                //var _scheTime = new Date($('#txtScheduleTime').val());
+                $.ajax({
+                    url: '/api/Notification/SendToList_Schedule',
+                    type: 'post',
+                    headers: { 'SessionGuid': $('#txtSessionID').val() },
+                    data: { Content: $('#txtContent').val(), RecipientIDs: $('#txtRecipientIDs').val(), ScheduleTime: $('#txtScheduleTime').val(), AppIDs: $('#txtAppIDs').val() },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Send notification successfully - ${response.NotifID}`);
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $('#btnSendRoutineNotif').click(function () {
+
+                //var _scheTime = new Date($('#txtScheduleTime').val());
+                console.log($('#txtTime').val());
+                //var _hour = new Date($('#txtTime').val().toString());
+                var _time = new Date();
+                _time.setHours($('#txtTime').val().split(':')[0], $('#txtTime').val().split(':')[1], 0);
+                _time.setDate($('#txtDayOfMonth').val());
+                $.ajax({
+                    url: '/api/Notification/SendToList_Routine',
+                    type: 'post',
+                    headers: { 'SessionGuid': $('#txtSessionID').val() },
+                    data: {
+                        Content: $('#txtContent').val(), RecipientIDs: $('#txtRecipientIDs').val(), ScheduleTime: $('#txtScheduleTime').val(), AppIDs: $('#txtAppIDs').val(), Routine: { Type: $('#selRoutineType').val(), DayOfWeek: $('#txtDayOfWeek').val(), Time: _time.toISOString() }
+                    },
+                    statusCode: {
+                        200: function (response) {
+                            alert(`Send notification successfully - ${response.NotifID}`);
+                        },
+                        400: function (response) {
+                            alert('Error code: Bad request');
+                        },
+                        403: function (response) {
+                            alert('Error code: Forbidden');
+                        },
+                        500: function (response) {
+                            alert('Error code: Internal server error');
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
 
             $('#btnGetNotif_ById').click(function () {
                 $.ajax({
@@ -80,36 +158,8 @@
                     statusCode: {
                         200: function (response) {
                             alert(`Get notification successfully`);
-                            $('#txtNotif').text(JSON.stringify(response, null, 2));
-                        },
-                        400: function (response) {
-                            alert('Error code: Bad request');
-                        },
-                        403: function (response) {
-                            alert('Error code: Forbidden');
-                        },
-                        404: function (response) {
-                            alert('Error code: Not found');
-                        },
-                        500: function (response) {
-                            alert('Error code: Internal server error');
-                        }
-                    },
-                    success: function (response) {
-                        console.log(response);
-                    }
-                });
-            });
+                            $("#txtNotif").val(JSON.stringify(response, null, 2));
 
-            $('#btnGetNotif_ByTime').click(function () {
-                $.ajax({
-                    url: '/api/Notification/GetNotif_ByTime',
-                    type: 'post',
-                    data: { FromTime: $('#txtFromTime').val(), ToTime: $('#txtToTime').val() },
-                    statusCode: {
-                        200: function (response) {
-                            alert(`Get notification successfully`);
-                            $('#txtNotif').text(JSON.stringify(response, null, 2));
                         },
                         400: function (response) {
                             alert('Error code: Bad request');
@@ -127,15 +177,17 @@
                 });
             });
 
-            $('#btnGetNotif_ByUserID').click(function () {
+            $('#btnUpdateNotif').click(function () {
+                //var _text = $('#txtNotif').val();
+                var _data = JSON.parse($("#txtNotif").val());
+                console.log($("#txtNotif").val());
                 $.ajax({
-                    url: '/api/Notification/GetNotif_ByUserID',
+                    url: '/api/Notification/UpdateUnpushNotif',
                     type: 'post',
-                    data: { UserID: $('#txtUserID').val() },
+                    data: _data,
                     statusCode: {
                         200: function (response) {
-                            alert(`Get notification successfully`);
-                            $('#txtNotif').text(JSON.stringify(response, null, 2));
+                            alert(`Update notification successfully`);
                         },
                         400: function (response) {
                             alert('Error code: Bad request');
@@ -143,92 +195,11 @@
                         403: function (response) {
                             alert('Error code: Forbidden');
                         },
-                        404: function (response) {
+                        403: function (response) {
                             alert('Error code: Not found');
                         },
                         500: function (response) {
                             alert('Error code: Internal server error');
-                        }
-                    },
-                    success: function (response) {
-                        console.log(response);
-                    }
-                });
-            });
-
-            $('#btnGetRoutineNotif').click(function () {
-                $.ajax({
-                    url: '/api/Notification/GetAllRoutineNotif',
-                    type: 'post',
-                    data: {},
-                    statusCode: {
-                        200: function (response) {
-                            alert(`Get notification successfully`);
-                            $('#txtNotif').text(JSON.stringify(response, null, 2));
-                        },
-                        400: function (response) {
-                            alert('Error code: Bad request');
-                        },
-                        403: function (response) {
-                            alert('Error code: Forbidden');
-                        },
-                        500: function (response) {
-                            alert(`Error code: Internal server error - ${response}`);
-                        }
-                    },
-                    success: function (response) {
-                        console.log(response);
-                    }
-                });
-            });
-
-            $('#btnGetUnpushNotif').click(function () {
-                $.ajax({
-                    url: '/api/Notification/GetAllUnpushNotif',
-                    type: 'post',
-                    data: {},
-                    statusCode: {
-                        200: function (response) {
-                            alert(`Get notification successfully`);
-                            $('#txtNotif').text(JSON.stringify(response, null, 2));
-                        },
-                        400: function (response) {
-                            alert('Error code: Bad request');
-                        },
-                        403: function (response) {
-                            alert('Error code: Forbidden');
-                        },
-                        500: function (response) {
-                            alert(`Error code: Internal server error - ${response}`);
-                        }
-                    },
-                    success: function (response) {
-                        console.log(response);
-                    }
-                });
-            });
-
-            $('#btnCancelScheduleNotif').click(function () {
-                $.ajax({
-                    url: '/api/Notification/CancelScheduledNotif',
-                    type: 'post',
-                    data: { Id: $('#txtUnpushNotifID').val() },
-                    statusCode: {
-                        200: function (response) {
-                            alert(`Cancel notification successfully`);
-                            //$('#txtNotif').text(JSON.stringify(response, null, 2));
-                        },
-                        400: function (response) {
-                            alert('Error code: Bad request');
-                        },
-                        403: function (response) {
-                            alert('Error code: Forbidden');
-                        },
-                        404: function (response) {
-                            alert('Error code: Not found');
-                        },
-                        500: function (response) {
-                            alert(`Error code: Internal server error - ${response}`);
                         }
                     },
                     success: function (response) {

@@ -105,18 +105,23 @@ namespace TNY.NotificationService.WebAPI.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest);
                 }
-                string _webappid = value.AppIDs.Where(x => bus_AppInfo.Get_ById(x).Type == AppTypeConst.WEBAPP).FirstOrDefault();
-                if (_webappid != null)
+                List<string> _webappid = value.AppIDs.Where(x => bus_AppInfo.Get_ById(x).Type == AppTypeConst.WEBAPP).ToList();
+                if (_webappid != null && _webappid.Count > 0)
                 {
                     NotificationActivity _notif = bus_NotificationActivity.Create(new NotificationActivity
                     {
                         Content = value.Content,
                         UserID = _usr.Id,
                         RecipientIDs = value.RecipientIDs,
-                        AppIDs = new List<string> { _webappid },
+                        AppIDs = _webappid,
                         SendTime = DateTime.Now
                     });
-                    notificationHub.SendSegment(_notif.Id, value.RecipientIDs, _webappid, value.Content);
+                    foreach (string _id in _webappid)
+                    {
+
+                        notificationHub.SendSegment(_notif.Id, value.RecipientIDs, _id, value.Content);
+
+                    }
                     return Request.CreateResponse(HttpStatusCode.OK, new { NotifID = _notif.Id });
                 }
                 else
@@ -340,6 +345,21 @@ namespace TNY.NotificationService.WebAPI.Controllers
             }
         }
 
+        [HttpPost]
+        public HttpResponseMessage GetAllRoutineNotif()
+        {
+            try
+            {
+                List<NotificationActivity> notifications = bus_NotificationActivity.Get_Routine();
+                return Request.CreateResponse(HttpStatusCode.OK, notifications);
+            }
+            catch (Exception ex)
+            {
+                LogGenerationHelper.WriteToFile(ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
 
         [HttpPost]
         public HttpResponseMessage GetAllUnpushNotif()
@@ -349,7 +369,7 @@ namespace TNY.NotificationService.WebAPI.Controllers
                 List<NotificationActivity> notifications = bus_NotificationActivity.Get_Unpush();
                 return Request.CreateResponse(HttpStatusCode.OK, notifications);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LogGenerationHelper.WriteToFile(ex.Message);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
@@ -361,7 +381,7 @@ namespace TNY.NotificationService.WebAPI.Controllers
         {
             List<NotificationActivity> notifications = bus_NotificationActivity.Get_Unpush();
             NotificationActivity _notif = notifications.Where(x => x.Id == value.Id).FirstOrDefault();
-            if(_notif == null)
+            if (_notif == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
@@ -372,5 +392,27 @@ namespace TNY.NotificationService.WebAPI.Controllers
             }
         }
 
+        [HttpPost]
+        public HttpResponseMessage UpdateUnpushNotif([FromBody]NotificationModel value)
+        {
+            List<NotificationActivity> notifications = bus_NotificationActivity.Get_Unpush();
+            notifications.AddRange(bus_NotificationActivity.Get_Routine());
+            NotificationActivity _notif = notifications.Where(x => x.Id == value.Id).FirstOrDefault();
+            if (_notif == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            else
+            {
+                _notif.Content = value.Content;
+                _notif.RecipientIDs = value.RecipientIDs;
+                _notif.AppIDs = value.AppIDs;
+                _notif.ScheduleTime = value.ScheduleTime;
+                _notif.IsRoutine = value.IsRoutine;
+                _notif.Routine = value.Routine;
+                bus_NotificationActivity.Replace(_notif);
+                return Request.CreateResponse(HttpStatusCode.OK);
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ namespace TNY.NotificationService.WebAPI.Models
         public List<string> RecipientIDs { get; set; }
         public DateTime ScheduleTime { get; set; }
         public List<string> AppIDs { get; set; }
+        public bool? IsRoutine { get; set; }
         public Routine Routine { get; set; }
     }
 

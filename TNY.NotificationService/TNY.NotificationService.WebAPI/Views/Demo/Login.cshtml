@@ -30,7 +30,7 @@
                     data: { UserName: $('#txtUsername').val(), Password: $('#txtPassword').val() },
                     success: function (response) {
                         alert(response.SessionGuid);
-                        window.location.href = '/demo';
+                        window.location.href = `/demo/sendnotif?SessionGuid=${response.SessionGuid}`;
                     },
                     error: function (response) {
                         alert(response);

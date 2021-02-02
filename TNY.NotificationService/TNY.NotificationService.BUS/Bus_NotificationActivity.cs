@@ -33,11 +33,18 @@ namespace TNY.NotificationService.BUS
         public List<NotificationActivity> Get_Unpush() => _objLst.Find<NotificationActivity>(x => x.ScheduleTime != null && x.ScheduleTime <= DateTime.Now && x.IsCancel != true && x.SendTime == null).ToList();
 
         public List<NotificationActivity> Get_Routine() => _objLst.Find<NotificationActivity>(x => x.IsRoutine == true).ToList();
+        public List<NotificationActivity> Get_UncancelRoutine() => _objLst.Find<NotificationActivity>(x => x.IsRoutine == true && x.IsCancel != true).ToList();
 
         public NotificationActivity Create(NotificationActivity appinfo)
         {
             _objLst.InsertOne(appinfo);
             return appinfo;
+        }
+
+        public ReplaceOneResult Replace(NotificationActivity notif)
+        {
+            var _filter = Builders<NotificationActivity>.Filter.Eq(x => x.Id, notif.Id);
+            return _objLst.ReplaceOne(_filter, notif);
         }
 
         public NotificationActivity Update_Cancel(NotificationActivity notif)

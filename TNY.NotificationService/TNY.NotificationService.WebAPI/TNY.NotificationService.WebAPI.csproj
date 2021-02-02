@@ -312,13 +312,14 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Operation\Index.cshtml" />
-    <Content Include="Views\Demo\Index.cshtml" />
+    <Content Include="Views\Demo\SendNotif.cshtml" />
     <Content Include="Views\Demo\Login.cshtml" />
     <Content Include="Views\Demo\GetNotifInfo.cshtml" />
     <Content Include="Views\Demo\Applications.cshtml" />
     <Content Include="Views\Demo\Users.cshtml" />
     <Content Include="Views\Demo\Templates.cshtml" />
     <Content Include="Views\Demo\ScheduledNotifSender.cshtml" />
+    <Content Include="Views\Demo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

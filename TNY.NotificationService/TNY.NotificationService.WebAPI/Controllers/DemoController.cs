@@ -19,6 +19,11 @@ namespace TNY.NotificationService.WebAPI.Controllers
             return View();
         }
 
+        public ActionResult SendNotif(string SessionGuid)
+        {
+            return View("SendNotif", null, SessionGuid);
+        }
+
         public ActionResult GetNotifInfo()
         {
             return View();

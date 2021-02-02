@@ -64,6 +64,24 @@ POST http://localhost:53771/api/Notification/CancelScheduledNotif
 }
 ~~~
 - Tham số Id chính là Id của thông báo được server trả về
+### 2.4. Chức năng gửi thông báo theo lịch trình
+- Sử dụng URI bên dưới và thêm vào tham số vào body của API
+~~~
+POST http://localhost:53771/api/Notification/SendToList_Routine
+~~~
+~~~
+{
+    "Content": "My routine notification",
+    "AppIDs": ["5f82e7ebe280cc251f9fadd5"],
+    "RecipientIDs": [
+        "cat", "dog"
+    ],
+    Routine:  { "Type": "daily", "DayOfWeek": 1, "Time": "2021-01-01 21:00" }
+}
+~~~
+- Thêm cả tham số SessionGuid được trả về khi đăng nhập vào header của API
+- Server sẽ thông báo OK và gửi trả về Id của thông báo vừa gửi
+
 ## 3. Chức năng liên quan tới bộ gửi thông báo hẹn giờ
 ### 3.1. Chức năng bật bộ gửi thông báo hẹn giờ
 - Sử dụng URI bên dưới, API này không có tham số thêm vào
@@ -129,7 +147,22 @@ POST http://localhost:53771/api/User/Add
 }
 ~~~
 - Server sẽ trả về Id của User mới tạo
-### 5.3. Chức xem xoá User
+### 5.3. Chức năng cập nhật User
+- Sử dụng URI bên dưới và thêm vào tham số vào body của API
+~~~
+POST http://localhost:53771/api/User/Update
+~~~
+~~~
+{
+    "Id": "xxxxxxx",
+    "UserName": "TNY",
+    "DisplayName": "Tran Tuan Khoa",
+    "Password": "12345"
+}
+~~~
+
+
+### 5.4. Chức năng xoá User
 - Sử dụng URI bên dưới và thêm vào tham số vào body của API
 ~~~
 POST http://localhost:53771/api/User/Remove
@@ -140,7 +173,7 @@ POST http://localhost:53771/api/User/Remove
 }
 ~~~
 ## 6. Các chức năng quản lý App thông báo trong hệ thống
-### 6.1. Chức năng thêm User
+### 6.1. Chức năng thêm App
 - Sử dụng URI bên dưới và thêm vào tham số vào body của API
 ~~~
 POST http://localhost:53771/api/App/Add
@@ -151,8 +184,19 @@ POST http://localhost:53771/api/App/Add
     "Type": "WebApp",
 }
 ~~~
-- Server sẽ trả về Id của User mới tạo
-### 6.2. Chức năng xoá User
+- Server sẽ trả về Id của App mới tạo
+### 6.2. Chức năng cập nhật App
+~~~
+POST http://localhost:53771/api/App/Update
+~~~
+~~~
+{
+    "Id": "5fc5fb26684f47ef5c3f7939"
+    "Name": "TNY",
+    "Type": "WebApp",
+}
+~~~
+### 6.2. Chức năng xoá App
 ~~~
 POST http://localhost:53771/api/App/Remove
 ~~~
@@ -161,8 +205,49 @@ POST http://localhost:53771/api/App/Remove
     "Id": "5fc5fb26684f47ef5c3f7939"
 }
 ~~~
-### 6.3. Chức xem tất cả User
+### 6.3. Chức xem tất cả App
 - Sử dụng URI bên dưới, API này không có tham số thêm vào
 ~~~
 GET http://localhost:53771/api/App/GetAll	
+~~~
+
+## 6. Các chức năng quản lý Template thông báo trong hệ thống
+### 6.1. Chức năng thêm Template
+- Sử dụng URI bên dưới và thêm vào tham số vào body của API
+~~~
+POST http://localhost:53771/api/Templates/Add
+~~~
+~~~
+{
+    "Name": "TNY",
+    "Type": "Thong bao",
+    "Content": "xxxxx"
+}
+~~~
+- Server sẽ trả về Id của Template mới tạo
+### 6.2. Chức năng cập nhật Template
+~~~
+POST http://localhost:53771/api/Templates/Update
+~~~
+~~~
+{
+    "Id": "5fc5fb26684f47ef5c3f7939"
+    "Name": "Ten template",
+    "Type": "Thong bao",
+    "Content": "xxxxx"
+}
+~~~
+### 6.2. Chức năng xoá Template
+~~~
+POST http://localhost:53771/api/Templates/Remove
+~~~
+~~~
+{
+    "Id": "5fc5fb26684f47ef5c3f7939"
+}
+~~~
+### 6.3. Chức xem tất cả Template
+- Sử dụng URI bên dưới, API này không có tham số thêm vào
+~~~
+GET http://localhost:53771/api/Templates/GetAll	
 ~~~

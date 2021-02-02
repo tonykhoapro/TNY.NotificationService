@@ -47,7 +47,7 @@ namespace TNY.NotificationService.WebAPI.Controllers
                                     LogGenerationHelper.WriteToFile($"{notif.Id} -> {ex.Message}");
                                 }
                             }
-                            List<NotificationActivity> _lstRoutine = bus_NotificationActivity.Get_Routine();
+                            List<NotificationActivity> _lstRoutine = bus_NotificationActivity.Get_UncancelRoutine();
                             foreach (NotificationActivity routine in _lstRoutine)
                             {
                                 try
